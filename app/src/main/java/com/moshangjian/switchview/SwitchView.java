@@ -2,6 +2,7 @@ package com.moshangjian.switchview;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.StateListDrawable;
 import android.text.Layout;
 import android.util.AttributeSet;
@@ -22,23 +23,24 @@ import java.util.LinkedList;
  */
 public class SwitchView extends ViewGroup implements Runnable {
 
-    private final static int DEFAULT_AUTO_DELAY = 1000;
+    private final static int DEFAULT_AUTO_DELAY = 15000;
     public final static String LEFT_BANNER = "left";
     public final static String CENTER_BANNER = "center";
     public final static String RIGHT_BANNER = "right";
+    private final static float DEFAULT_RATIOS = 0.6f;
 
     private int width;
     private int height;
     private int distanceX;
     private LinkedList<Location> locations;
     private VelocityTracker mVelocityTracker;
-    private double childRatios = 0.6;
+    private double childRatios;
     private int boundaryValue;
     private int imageWidth;
     private boolean isIntercept = false;
     private boolean switching = false;
 
-    private long autoDelay = DEFAULT_AUTO_DELAY;
+    private long autoDelay;
 
     /**
      * 记录被判定为滚动运动的最小滚动值
@@ -64,16 +66,29 @@ public class SwitchView extends ViewGroup implements Runnable {
     public SwitchView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+        initAttr(attrs);
     }
 
     public SwitchView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
+        initAttr(attrs);
     }
 
     private void init() {
         locations = new LinkedList<>();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+    }
+
+    private void initAttr(AttributeSet attrs){
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.SwitchView);
+        childRatios = typedArray.getFloat(R.styleable.SwitchView_scale,DEFAULT_RATIOS);
+        autoDelay = typedArray.getInt(R.styleable.SwitchView_interval_time,DEFAULT_AUTO_DELAY);
+        typedArray.recycle();
+
+        if (childRatios >=1 || childRatios <= 0.5){
+            throw new RuntimeException("ratios is not greater than 1 and not less than 0.5");
+        }
     }
 
     @Override
@@ -98,7 +113,6 @@ public class SwitchView extends ViewGroup implements Runnable {
             maxHeight = maxHeight + getPaddingBottom() + getPaddingTop();
         }
         setMeasuredDimension(widthSize, maxHeight);
-
     }
 
     @Override

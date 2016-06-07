@@ -12,9 +12,12 @@ SwitchView是公司项目中的一个自定义控件，主要是为了实现Imag
 
 ```java
 <com.moshangjian.switchview.SwitchView
+        tools:interval_time="15000"
+        tools:scale="0.7"
+        android:background="@android:color/holo_red_dark"
         android:id="@+id/main_switch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/> 
+        android:layout_height="wrap_content"/>
 ```
 
 ```java 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="SwitchView_Attr">
-        <attr name="scale" format="integer|reference"/>
+    <declare-styleable name="SwitchView">
+        <attr name="scale" format="float|reference"/>
+        <attr name="interval_time" format="integer|reference"/>
     </declare-styleable>
 
 </resources>
