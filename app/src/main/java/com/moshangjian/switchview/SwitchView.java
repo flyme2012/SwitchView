@@ -80,13 +80,13 @@ public class SwitchView extends ViewGroup implements Runnable {
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
-    private void initAttr(AttributeSet attrs){
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.SwitchView);
-        childRatios = typedArray.getFloat(R.styleable.SwitchView_scale,DEFAULT_RATIOS);
-        autoDelay = typedArray.getInt(R.styleable.SwitchView_interval_time,DEFAULT_AUTO_DELAY);
+    private void initAttr(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SwitchView);
+        childRatios = typedArray.getFloat(R.styleable.SwitchView_scale, DEFAULT_RATIOS);
+        autoDelay = typedArray.getInt(R.styleable.SwitchView_interval_time, DEFAULT_AUTO_DELAY);
         typedArray.recycle();
 
-        if (childRatios >=1 || childRatios <= 0.5){
+        if (childRatios >= 1 || childRatios <= 0.5) {
             throw new RuntimeException("ratios is not greater than 1 and not less than 0.5");
         }
     }
@@ -102,7 +102,7 @@ public class SwitchView extends ViewGroup implements Runnable {
 
         for (int i = 0; i < getChildCount(); i++) {
             View childView = getChildAt(i);
-            childView.measure(childWidthMeasureSpace,childHeightMeasureSpace);
+            childView.measure(childWidthMeasureSpace, childHeightMeasureSpace);
         }
 
         int maxHeight = 0;
@@ -132,7 +132,7 @@ public class SwitchView extends ViewGroup implements Runnable {
         for (Location location : locations) {
             View childView = getChildAt(location.childPosition);
             int childHeight = childView.getMeasuredHeight();
-            childHeight = Math.min(childHeight,(b-t));
+            childHeight = Math.min(childHeight, (b - t));
             childView.layout(location.left, 0, location.right, childHeight);
         }
     }
@@ -164,21 +164,22 @@ public class SwitchView extends ViewGroup implements Runnable {
             mVelocityTracker = VelocityTracker.obtain();
         }
         mVelocityTracker.addMovement(event);
-        float x = event.getX();
+        float x =  event.getX();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // 记录按下时的横坐标
                 mLastMotionX = x;
             case MotionEvent.ACTION_MOVE:
                 int disX = (int) (mLastMotionX - x);
+                mLastMotionX = x;
                 if (Math.abs(disX) > mTouchSlop && !moving) {
+                    disX = 0;
                     moving = true;
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
-                if (moving) {
+                if (moving && disX != 0) {
                     distanceX += disX;
                     alterLocation(disX);
-                    mLastMotionX = x;
                     requestLayout();
                 }
                 break;
