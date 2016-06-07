@@ -2,6 +2,7 @@ package com.moshangjian.switchview;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.drawable.StateListDrawable;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -97,6 +98,7 @@ public class SwitchView extends ViewGroup implements Runnable {
             maxHeight = maxHeight + getPaddingBottom() + getPaddingTop();
         }
         setMeasuredDimension(widthSize, maxHeight);
+
     }
 
     @Override
@@ -116,6 +118,7 @@ public class SwitchView extends ViewGroup implements Runnable {
         for (Location location : locations) {
             View childView = getChildAt(location.childPosition);
             int childHeight = childView.getMeasuredHeight();
+            childHeight = Math.min(childHeight,(b-t));
             childView.layout(location.left, 0, location.right, childHeight);
         }
     }
