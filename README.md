@@ -6,7 +6,7 @@ SwitchView是公司项目中的一个自定义控件，主要是为了实现Imag
 
 > 具体的效果如下
 
-![](https://github.com/flyme2012/SwitchView/blob/master/%20designSketch.png = 540x960)
+![](https://github.com/flyme2012/SwitchView/blob/master/%20designSketch.png )
 
 > 具体的使用方法
 
