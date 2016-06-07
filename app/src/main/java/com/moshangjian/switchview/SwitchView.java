@@ -2,13 +2,16 @@ package com.moshangjian.switchview;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.text.Layout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 
 import java.util.LinkedList;
 
@@ -68,9 +71,8 @@ public class SwitchView extends ViewGroup implements Runnable {
     }
 
     private void init() {
-        locations = new LinkedList<Location>();
+        locations = new LinkedList<>();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-
     }
 
     @Override
@@ -82,11 +84,15 @@ public class SwitchView extends ViewGroup implements Runnable {
         int childHeightMeasureSpace = MeasureSpec.makeMeasureSpec((int) (widthSize * childRatios * 0.5), MeasureSpec.EXACTLY);
         int childWidthMeasureSpace = MeasureSpec.makeMeasureSpec((int) (widthSize * childRatios), MeasureSpec.EXACTLY);
 
-        measureChildren(childWidthMeasureSpace, childHeightMeasureSpace);
-        int maxHeight = 0 ;
-        if (heightMode == MeasureSpec.EXACTLY){
+        for (int i = 0; i < getChildCount(); i++) {
+            View childView = getChildAt(i);
+            childView.measure(childWidthMeasureSpace,childHeightMeasureSpace);
+        }
+
+        int maxHeight = 0;
+        if (heightMode == MeasureSpec.EXACTLY) {
             maxHeight = heightSize;
-        }else if (heightMode == MeasureSpec.AT_MOST){
+        } else if (heightMode == MeasureSpec.AT_MOST) {
             maxHeight = getChildAt(0).getMeasuredHeight();
             maxHeight = maxHeight + getPaddingBottom() + getPaddingTop();
         }
@@ -105,7 +111,7 @@ public class SwitchView extends ViewGroup implements Runnable {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (getChildCount() < 3) {
-            return;
+            throw new RuntimeException(" The number of children must be greater than 3 ");
         }
         for (Location location : locations) {
             View childView = getChildAt(location.childPosition);
@@ -183,8 +189,8 @@ public class SwitchView extends ViewGroup implements Runnable {
         return true;
     }
 
-    private void clickBannerListener(String location){
-        if (bannerClickListener != null){
+    private void clickBannerListener(String location) {
+        if (bannerClickListener != null) {
             bannerClickListener.click(location);
         }
     }
@@ -249,9 +255,9 @@ public class SwitchView extends ViewGroup implements Runnable {
             clickBannerListener(RIGHT_BANNER);
             scrollToNext();
             return true;
-        }else {
+        } else {
             clickBannerListener(CENTER_BANNER);
-            return  true;
+            return true;
         }
     }
 
@@ -334,6 +340,7 @@ public class SwitchView extends ViewGroup implements Runnable {
 
     /**
      * 设置轮播的间隔时间
+     *
      * @param delay
      */
     public void setAutoDelay(long delay) {
@@ -346,7 +353,7 @@ public class SwitchView extends ViewGroup implements Runnable {
         postScroll();
     }
 
-    public void setBannerClickListener(BannerClickListener bannerClickListener){
+    public void setBannerClickListener(BannerClickListener bannerClickListener) {
         this.bannerClickListener = bannerClickListener;
     }
 
