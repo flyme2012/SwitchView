@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
             View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_banner, null, false);
             ImageView imageView = (ImageView) view.findViewById(R.id.item_banner_img);
             imageView.setImageResource(imageResource[i]);
-            switchView.addView(view);
+            if (switchView != null){
+                switchView.addView(view);
+            }
         }
     }
 }

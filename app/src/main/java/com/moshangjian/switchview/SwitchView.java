@@ -77,12 +77,20 @@ public class SwitchView extends ViewGroup implements Runnable {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
         int childHeightMeasureSpace = MeasureSpec.makeMeasureSpec((int) (widthSize * childRatios * 0.5), MeasureSpec.EXACTLY);
         int childWidthMeasureSpace = MeasureSpec.makeMeasureSpec((int) (widthSize * childRatios), MeasureSpec.EXACTLY);
 
         measureChildren(childWidthMeasureSpace, childHeightMeasureSpace);
-        setMeasuredDimension(widthSize, getChildAt(0).getMeasuredHeight());
+        int maxHeight = 0 ;
+        if (heightMode == MeasureSpec.EXACTLY){
+            maxHeight = heightSize;
+        }else if (heightMode == MeasureSpec.AT_MOST){
+            maxHeight = getChildAt(0).getMeasuredHeight();
+            maxHeight = maxHeight + getPaddingBottom() + getPaddingTop();
+        }
+        setMeasuredDimension(widthSize, maxHeight);
     }
 
     @Override
@@ -101,7 +109,8 @@ public class SwitchView extends ViewGroup implements Runnable {
         }
         for (Location location : locations) {
             View childView = getChildAt(location.childPosition);
-            childView.layout(location.left, 0, location.right, height);
+            int childHeight = childView.getMeasuredHeight();
+            childView.layout(location.left, 0, location.right, childHeight);
         }
     }
 
