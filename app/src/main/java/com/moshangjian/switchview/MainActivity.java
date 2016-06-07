@@ -20,11 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SwitchView switchView = (SwitchView) findViewById(R.id.main_switch);
 
-        int width = getResources().getDisplayMetrics().widthPixels;
-
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (width * 0.6 * 0.5));
-        switchView.setLayoutParams(layoutParams);
-
         for (int i = 0; i < 5; i++) {
             View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_banner, null, false);
             ImageView imageView = (ImageView) view.findViewById(R.id.item_banner_img);

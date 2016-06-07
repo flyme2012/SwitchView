@@ -22,7 +22,6 @@ public class FullImageView extends ImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        Log.d("hb","width = " + widthSize + " height = " + heightSize);
-        setMeasuredDimension(widthSize,widthSize);
+        setMeasuredDimension(widthSize, heightSize);
     }
 }

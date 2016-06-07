@@ -18,7 +18,7 @@ import java.util.LinkedList;
  */
 public class SwitchView extends ViewGroup implements Runnable {
 
-    private final static int DEFAULT_AUTO_DELAY = 15000;
+    private final static int DEFAULT_AUTO_DELAY = 1000;
     public final static String LEFT_BANNER = "left";
     public final static String CENTER_BANNER = "center";
     public final static String RIGHT_BANNER = "right";
@@ -70,6 +70,7 @@ public class SwitchView extends ViewGroup implements Runnable {
     private void init() {
         locations = new LinkedList<Location>();
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+
     }
 
     @Override
@@ -77,11 +78,11 @@ public class SwitchView extends ViewGroup implements Runnable {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        int childHeightMeasureSpace = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
+        int childHeightMeasureSpace = MeasureSpec.makeMeasureSpec((int) (widthSize * childRatios * 0.5), MeasureSpec.EXACTLY);
         int childWidthMeasureSpace = MeasureSpec.makeMeasureSpec((int) (widthSize * childRatios), MeasureSpec.EXACTLY);
 
         measureChildren(childWidthMeasureSpace, childHeightMeasureSpace);
-        setMeasuredDimension(widthSize, heightSize);
+        setMeasuredDimension(widthSize, getChildAt(0).getMeasuredHeight());
     }
 
     @Override
