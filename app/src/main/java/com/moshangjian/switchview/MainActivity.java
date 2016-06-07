@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,13 +22,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SwitchView switchView = (SwitchView) findViewById(R.id.main_switch);
 
-        for (int i = 0; i < 5; i++) {
-            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_banner, null, false);
+//        for (int i = 0; i < 5; i++) {
+//            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_banner, null, false);
+//            ImageView imageView = (ImageView) view.findViewById(R.id.item_banner_img);
+//            imageView.setImageResource(imageResource[i]);
+//            if (switchView != null){
+//                switchView.addView(view);
+//            }
+//        }
+        switchView.setAdapter(new SwitchAdapter());
+    }
+
+
+    class SwitchAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return imageResource.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_banner, parent, false);
             ImageView imageView = (ImageView) view.findViewById(R.id.item_banner_img);
-            imageView.setImageResource(imageResource[i]);
-            if (switchView != null){
-                switchView.addView(view);
-            }
+            imageView.setImageResource(imageResource[position]);
+            return view;
         }
     }
 }

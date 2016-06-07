@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
 import java.util.LinkedList;
@@ -39,6 +40,7 @@ public class SwitchView extends ViewGroup implements Runnable {
     private int imageWidth;
     private boolean isIntercept = false;
     private boolean switching = false;
+    private BaseAdapter mAdapter;
 
     private long autoDelay;
 
@@ -212,6 +214,7 @@ public class SwitchView extends ViewGroup implements Runnable {
         }
     }
 
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -353,6 +356,11 @@ public class SwitchView extends ViewGroup implements Runnable {
         if (switching) {
             postDelayed(this, autoDelay);
         }
+    }
+
+
+    public void setAdapter(BaseAdapter adapter){
+        this.mAdapter = adapter;
     }
 
     /**
